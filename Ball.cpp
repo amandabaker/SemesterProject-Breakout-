@@ -3,22 +3,16 @@ using namespace std;
 
 Ball::Ball() {
 	int radius;
-	int xPos;
-	int yPos;
-	int xVel;
-	int yVel;
+	int xPos, yPos;
+	int xVel, yVel;
 	int speed;
-	int left, right, top, bottom;
 }
 
 void Ball::set() {
 	radius = 10;
 	xPos = SCREEN_WIDTH / 2;
 	yPos = 11 * SCREEN_HEIGHT / 12 - radius;
-	left = xPos;
-	right = left + 2 * radius;
-	top = yPos;
-	bottom = top + 2 * radius;
+
 	speed = 1; 
 	xVel = speed;
 	yVel = speed;  
@@ -37,8 +31,8 @@ void Ball::move() { //doesn't work yet
 		xPos = leftBoundry;
 		xVel *= -1;
 	}
-	else if( xPos >= rightBoundry ) {
-		xPos = rightBoundry - 2 * radius;
+	else if( xPos >= rightBoundry - radius ) {
+		xPos = rightBoundry - radius;
 		xVel *= -1;
 	}
 
@@ -46,16 +40,30 @@ void Ball::move() { //doesn't work yet
 		yPos = topBoundry;
 		yVel *= -1;
 	}
-	else if( yPos >= bottomBoundry ) {
-		yPos = bottomBoundry - 2 * radius;
+	else if( yPos >= bottomBoundry - radius ) {
+		yPos = bottomBoundry - radius;
 		yVel *= -1;
 	}
-  left = xPos;
-  right = left + 2 * radius;
-  top = yPos;
-  bottom = top + 2 * radius;
 }
 
+int Ball::left() {
+	return xPos - radius;
+}
+
+int Ball::right() {
+	return xPos + radius;
+}
+
+int Ball::top() {
+	return yPos - radius;
+}
+
+int Ball::bottom() {
+	return yPos + radius;
+}
+void Ball::changeYDir() {
+	yVel *= -1;
+}
 /*void Ball::render( SDL_Renderer *gRenderer ) {
 	SDL_Point ball[21] = {
 							xPos-1, yPos-2,		xPos, yPos-2,	xPos+1, yPos-2,
@@ -101,6 +109,7 @@ void Ball::render( SDL_Renderer *gRenderer ) {
 */
 
 /*JUST KIDDING WE'RE GOING TO USE A SQUARE!!*/
+
 
 void Ball::render( SDL_Renderer *gRenderer ) {
 	SDL_Rect fillRect = { xPos - radius, yPos - radius, radius*2, radius*2 };

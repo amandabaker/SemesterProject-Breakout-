@@ -31,7 +31,13 @@ class BrickConfig {
 public:
 
 	BrickConfig(); 
+	int size();
+	int left( int brickNum );
+	int right( int brickNum );
+	int top( int brickNum );
+	int bottom( int brickNum );
 	void set();
+	void destroy( int brickNum );
 	void render( SDL_Renderer* );
 };
 

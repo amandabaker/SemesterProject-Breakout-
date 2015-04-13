@@ -10,6 +10,22 @@ Paddle::Paddle() {
 	int velMult = 0;
 }
 
+int Paddle::left() {
+	return xPos;
+}
+
+int Paddle::right() {
+	return xPos + width;
+}
+
+int Paddle::top() {
+	return yPos;
+}
+
+int Paddle::bottom() {
+	return yPos + height;
+}
+
 void Paddle::set() {
 	height = 20;
 	width = 100;

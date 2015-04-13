@@ -1,4 +1,9 @@
-#include <SDL2/SDL.h> 
+//#include <SDL2/SDL.h>
+
+// ^^IF YOU'RE USING LINUX/MAC, USE THE INCLUDE ABOVE
+
+// vv IF YOU'RE USING WINDOWS, USE THE INCLUDE BELOW 
+#include <SDL.h>
 #include <stdio.h>
 #include <string>
 #include "Breakout.h"
@@ -60,38 +65,53 @@ bool loadMedia() {
 	return success;
 }
 
-/*
-bool checkCollision ( Ball ball, BrickConfig brickConfig ) {
-	int leftBall,	leftBrick;
-	int rightBall,	rightBrick;
-	int topBall,	topBrick;
-	int bottomBall,	bottomBrick;
+
+bool checkCollision ( Ball ball, BrickConfig brickConfig, Paddle paddle ) {
+	int leftBall,	leftBrick,		leftPaddle;
+	int rightBall,	rightBrick,		rightPaddle;
+	int topBall,	topBrick,		topPaddle;
+	int bottomBall,	bottomBrick,	bottomPaddle;
 
 	leftBall	= ball.left();					
 	rightBall	= ball.right();
 	topBall		= ball.top();
 	bottomBall  = ball.bottom();
 
-	for ( int i=0; i < brickConfig.length(), i++) { 
-    //TODO create BrickConfig::length()  returns length of brickVect
-    //TODO create BrickConfig::left( int brickNum )   returns brick.left of brick "brickNum"
-    //            BrickConfig::right, top, and bottom as well
-    //uh, what about the paddle. this is designed specifically for the
-    //  ball and bricks... rethink design
+	//check collision with bricks
+	for ( int i=0; i < brickConfig.size(); i++) { 
 		
 		leftBrick	= brickConfig.left( i );
 		rightBrick	= brickConfig.right( i );
-		topBall		= brickConfig.top( i );
+		topBrick	= brickConfig.top( i );
 		bottomBrick = brickConfig.bottom( i );
 
-		if( bottomBall  <= topBrick )		      
-    else if( topBall		>= bottomBrick )	return false;
-    else if( rightBall	<= leftBrick )		return false;
-    else if( leftBall	>= rightBrick )		return false;
-
+		if	   ( bottomBall <= topBrick )		continue;	      
+		else if( topBall	>= bottomBrick )	continue;
+		else if( rightBall	<= leftBrick )		continue;
+		else if( leftBall	>= rightBrick )		continue;
+		else { 
+			//ball collided with brickVect[ i ].  We will assume that you can only hit one brick at a time for now
+			brickConfig.destroy( i ); //destroy brickVect[ i ]
+			break; //REMOVE THIS IF YOU WANT TO ALLOW MULTIPLE BRICKS TO BREAK AT A TIME
+		}
 	}
+	
+	leftPaddle	 = paddle.left();
+	rightPaddle  = paddle.right();
+	topPaddle	 = paddle.top();
+	bottomPaddle = paddle.bottom();
+
+	//check collision with paddle
+	if	   ( bottomBall <= topPaddle )		return false;
+	else if( topBall	>= bottomPaddle )	return false;
+	else if( rightBall	<= leftBrick )		return false;
+	else if( leftBall	>= rightBrick )		return false;
+	else {
+		ball.changeYDir();
+	}
+
   return true;    //
-}*/
+}
 
 void close() {
 	
@@ -151,9 +171,16 @@ int main( int argc, char* args[]) {
 			//Create Ball
 			Ball ball;
 			ball.set();
+
+			int startTime;
       
 			//While game is running
 			while ( !quit ) {
+
+				startTime = SDL_GetTicks();
+				while ( SDL_GetTicks() < startTime + 10 ){
+					//Do nothing for 10 ms (goal: constant ball speed whether or not paddle moves)
+				}
 				//Handle events on queue
 				while( SDL_PollEvent( &e ) != 0 ){
 					if ( e.type == SDL_QUIT ) {
@@ -184,6 +211,8 @@ int main( int argc, char* args[]) {
 						}
 					}
 					paddle.movePaddle();
+					ball.move();
+					checkCollision( ball, brickConfig, paddle);
 
 					//Clear Screen 
 					SDL_SetRenderDrawColor( gRenderer, 0x00, 0x00, 0x00, 0xFF );
@@ -195,8 +224,23 @@ int main( int argc, char* args[]) {
 
 					//Update screen
 					SDL_RenderPresent( gRenderer );
+
+					//startTime = SDL_GetTicks();
+					//while ( SDL_GetTicks() < startTime + 50 ){
+					//	//Do nothing for 50 ms (goal: ~20 Hz)
+					//}
 				}
-				ball.move();                     
+				ball.move();  
+				checkCollision( ball, brickConfig, paddle );
+
+				SDL_SetRenderDrawColor( gRenderer, 0x00, 0x00, 0x00, 0xFF );
+				SDL_RenderClear( gRenderer );
+
+				paddle.render( gRenderer );
+				brickConfig.render( gRenderer );
+				ball.render( gRenderer );
+
+				//Update screen
 				SDL_RenderPresent( gRenderer );
 			}
 		}

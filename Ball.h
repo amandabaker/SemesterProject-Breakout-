@@ -21,13 +21,17 @@ class Ball
 	int xVel;
 	int yVel;
 	int speed;
-  int left, right, top, bottom;
 
 public:
 
 	Ball ();
 	void set();
 	void move();
+	int left();
+	int right();
+	int top();
+	int bottom();
+	void changeYDir();
 	void render( SDL_Renderer* );
     
 };

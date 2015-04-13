@@ -17,6 +17,26 @@ BrickConfig::BrickConfig() {
 	vector<Brick> brickVect( numBricks );
 }
 
+int BrickConfig::size() {
+	return numBricks;
+}
+
+int BrickConfig::left( int brickNum ) {
+	return brickVect[ brickNum ].left();
+}
+
+int BrickConfig::right( int brickNum ) {
+	return brickVect[ brickNum ].right();
+}
+
+int BrickConfig::top( int brickNum ) {
+	return brickVect[ brickNum ].top();
+}
+
+int BrickConfig::bottom( int brickNum ) {
+	return brickVect[ brickNum ].bottom();
+}
+
 void BrickConfig::set() {
 	numCol = 10;
 	numRow = 5;
@@ -37,6 +57,10 @@ void BrickConfig::set() {
 			brickVect[ j*numCol + i ].set( xPos, yPos, brickWidth, brickHeight );
 		}
 	}
+}
+
+void BrickConfig::destroy( int brickNum ) {
+	brickVect[ brickNum ].destroy();
 }
 
 void BrickConfig::render( SDL_Renderer* gRenderer ) {
