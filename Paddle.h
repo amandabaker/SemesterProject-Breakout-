@@ -26,10 +26,14 @@ class Paddle
 public:
 
 	Paddle();
+	int left();
+	int right();
+	int top();
+	int bottom();
 	void set();
 	void movePaddle();
 	void setXVel( int newVel );
-	int getXVel();
+	//int getXVel();
 	void render( SDL_Renderer* );
 
 };

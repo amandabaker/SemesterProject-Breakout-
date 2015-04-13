@@ -19,12 +19,18 @@ class Brick
 	int yPos;
 	int width;
 	int height;
+	bool exists;
   
 public:
   
 	Brick();
 	Brick( int x, int y, int width, int height );
+	int left();
+	int right();
+	int top();
+	int bottom();
 	void set( int x, int y, int width, int height );
+	void destroy();
 	void render( SDL_Renderer* );
     
 };
