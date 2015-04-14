@@ -32,7 +32,7 @@ void Paddle::set() {
 	xPos = SCREEN_WIDTH/2 - width/2;
 	yPos = SCREEN_HEIGHT - SCREEN_HEIGHT/12;
 	xVel = 0;
-	speed = 10; //
+	speed = 15; //
 }
 
 void Paddle::movePaddle() {

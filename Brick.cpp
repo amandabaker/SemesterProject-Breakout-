@@ -48,8 +48,14 @@ void Brick::destroy() {
 
 void Brick::render(SDL_Renderer* gRenderer) {
 	if (exists) {
-		SDL_Rect fillRect = { xPos, yPos, width, height };
-		SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0x99, 0xFF );
-		SDL_RenderFillRect( gRenderer, &fillRect );
+		SDL_Rect outlineRect = { xPos, yPos, width, height };
+		SDL_SetRenderDrawColor( gRenderer, 0x37, 0x74, 0xFF, 0xFF );
+		SDL_RenderDrawRect( gRenderer, &outlineRect );
+		SDL_Rect outlineRect2 = { xPos+1, yPos+1, width-2, height-2 };
+		SDL_SetRenderDrawColor( gRenderer, 0x24, 0x43, 0x8D, 0xFF );
+		SDL_RenderDrawRect( gRenderer, &outlineRect2 );
+		SDL_Rect outlineRect3 = { xPos-1, yPos-1, width+2, height+2 };
+		SDL_SetRenderDrawColor( gRenderer, 0x24, 0x43, 0x8D, 0xFF );
+		SDL_RenderDrawRect( gRenderer, &outlineRect3 );
 	}
 }

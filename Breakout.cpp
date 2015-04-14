@@ -66,7 +66,7 @@ bool loadMedia() {
 }
 
 
-bool checkCollision ( Ball ball, BrickConfig brickConfig, Paddle paddle ) {
+bool checkCollision ( Ball &ball, BrickConfig &brickConfig, Paddle &paddle ) {
 	int leftBall,	leftBrick,		leftPaddle;
 	int rightBall,	rightBrick,		rightPaddle;
 	int topBall,	topBrick,		topPaddle;
@@ -85,6 +85,7 @@ bool checkCollision ( Ball ball, BrickConfig brickConfig, Paddle paddle ) {
 		topBrick	= brickConfig.top( i );
 		bottomBrick = brickConfig.bottom( i );
 
+		
 		if	   ( bottomBall <= topBrick )		continue;	      
 		else if( topBall	>= bottomBrick )	continue;
 		else if( rightBall	<= leftBrick )		continue;
@@ -92,6 +93,7 @@ bool checkCollision ( Ball ball, BrickConfig brickConfig, Paddle paddle ) {
 		else { 
 			//ball collided with brickVect[ i ].  We will assume that you can only hit one brick at a time for now
 			brickConfig.destroy( i ); //destroy brickVect[ i ]
+			ball.changeYDir();
 			break; //REMOVE THIS IF YOU WANT TO ALLOW MULTIPLE BRICKS TO BREAK AT A TIME
 		}
 	}
@@ -104,12 +106,9 @@ bool checkCollision ( Ball ball, BrickConfig brickConfig, Paddle paddle ) {
 	//check collision with paddle
 	if	   ( bottomBall <= topPaddle )		return false;
 	else if( topBall	>= bottomPaddle )	return false;
-	else if( rightBall	<= leftBrick )		return false;
-	else if( leftBall	>= rightBrick )		return false;
-	else {
+	else if( rightBall	<= leftPaddle )		return false;
+	else if( leftBall	>= rightPaddle )		return false;
 		ball.changeYDir();
-	}
-
   return true;    //
 }
 
@@ -137,7 +136,7 @@ SDL_Surface* loadSurface( std::string path ) {  /*THIS MAY NOT BE NECESSARY FOR 
 	//Load image at a specified path
 	SDL_Surface* loadedSurface = SDL_LoadBMP( path.c_str() );
 	if( loadedSurface == NULL ) {
-		printf( "Unable to load image%s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
+		printf( "Unable to load image %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
 	}
 	return loadedSurface;
 }
@@ -172,13 +171,13 @@ int main( int argc, char* args[]) {
 			Ball ball;
 			ball.set();
 
-			int startTime;
+			unsigned int startTime;
       
 			//While game is running
 			while ( !quit ) {
 
 				startTime = SDL_GetTicks();
-				while ( SDL_GetTicks() < startTime + 10 ){
+				while ( SDL_GetTicks() < startTime + 5 ){
 					//Do nothing for 10 ms (goal: constant ball speed whether or not paddle moves)
 				}
 				//Handle events on queue
@@ -225,10 +224,6 @@ int main( int argc, char* args[]) {
 					//Update screen
 					SDL_RenderPresent( gRenderer );
 
-					//startTime = SDL_GetTicks();
-					//while ( SDL_GetTicks() < startTime + 50 ){
-					//	//Do nothing for 50 ms (goal: ~20 Hz)
-					//}
 				}
 				ball.move();  
 				checkCollision( ball, brickConfig, paddle );

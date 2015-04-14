@@ -7,6 +7,7 @@ BrickConfig::BrickConfig() {
 	int numCol = 10;
 	int numRow = 5;
 	int numBricks = numCol * numRow;
+	int numBricksLeft = numBricks;
 	int brickWidth = SCREEN_WIDTH / (numRow + 2);
 	int brickHeight = brickWidth/2;
 	int spaceBtwn = SCREEN_WIDTH / (numRow + 2) / (numRow - 1) * 2;
@@ -61,6 +62,7 @@ void BrickConfig::set() {
 
 void BrickConfig::destroy( int brickNum ) {
 	brickVect[ brickNum ].destroy();
+	numBricksLeft--;
 }
 
 void BrickConfig::render( SDL_Renderer* gRenderer ) {
