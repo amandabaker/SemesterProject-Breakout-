@@ -42,8 +42,10 @@ void BrickConfig::set() {
 	numCol = 10;
 	numRow = 5;
 	numBricks = numCol * numRow;
-	brickWidth = SCREEN_WIDTH / (numCol + 2);
-	brickHeight = brickWidth/2;
+	//brickWidth = SCREEN_WIDTH / (numCol + 2);
+	//brickHeight = brickWidth/2;
+	brickWidth = 50;
+	brickHeight = 25;
 	spaceBtwn = SCREEN_WIDTH / (numCol + 2) / (numCol - 1) * 2;
 	spaceEdge = ( SCREEN_WIDTH - brickWidth * numCol - spaceBtwn * (numCol - 1) ) / 2;
 	xPos = 0;
@@ -68,5 +70,11 @@ void BrickConfig::destroy( int brickNum ) {
 void BrickConfig::render( SDL_Renderer* gRenderer ) {
 	for ( int i=0; i<numBricks; i++ ) {	
 		brickVect[ i ].render( gRenderer );
+	}
+}
+
+void BrickConfig::render( SDL_Renderer* gRenderer, SDL_Texture* gTexture ) {
+	for ( int i=0; i<numBricks; i++ ) {	
+		brickVect[ i ].render( gRenderer, gTexture );
 	}
 }

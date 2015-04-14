@@ -15,7 +15,7 @@ class Brick;
 
 class Ball
 {
-	int radius;
+	int diameter;
 	int xPos;
 	int yPos;
 	int xVel;
@@ -33,7 +33,7 @@ public:
 	int bottom();
 	void changeYDir();
 	void render( SDL_Renderer* );
-    
+    void render( SDL_Renderer*, SDL_Texture* );
 };
 
 #endif

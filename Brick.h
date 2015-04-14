@@ -32,6 +32,7 @@ public:
 	void set( int x, int y, int width, int height );
 	void destroy();
 	void render( SDL_Renderer* );
+	void render( SDL_Renderer*, SDL_Texture* );
     
 };
 

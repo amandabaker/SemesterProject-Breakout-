@@ -51,11 +51,28 @@ void Brick::render(SDL_Renderer* gRenderer) {
 		SDL_Rect outlineRect = { xPos, yPos, width, height };
 		SDL_SetRenderDrawColor( gRenderer, 0x37, 0x74, 0xFF, 0xFF );
 		SDL_RenderDrawRect( gRenderer, &outlineRect );
-		SDL_Rect outlineRect2 = { xPos+1, yPos+1, width-2, height-2 };
+		/*SDL_Rect outlineRect2 = { xPos+1, yPos+1, width-2, height-2 };
 		SDL_SetRenderDrawColor( gRenderer, 0x24, 0x43, 0x8D, 0xFF );
 		SDL_RenderDrawRect( gRenderer, &outlineRect2 );
 		SDL_Rect outlineRect3 = { xPos-1, yPos-1, width+2, height+2 };
 		SDL_SetRenderDrawColor( gRenderer, 0x24, 0x43, 0x8D, 0xFF );
 		SDL_RenderDrawRect( gRenderer, &outlineRect3 );
+		*/
+	}
+}
+
+void Brick::render(SDL_Renderer* gRenderer, SDL_Texture* gTexture) {
+	if (exists) {
+		SDL_Rect srcrect;
+		SDL_Rect dstrect;
+		srcrect.x = 50;
+		srcrect.y = 0;
+		srcrect.w = 50;
+		srcrect.h = 25;
+		dstrect.x = xPos;
+		dstrect.y = yPos;
+		dstrect.w = width;
+		dstrect.h = height;
+		SDL_RenderCopy( gRenderer, gTexture, &srcrect, &dstrect );
 	}
 }

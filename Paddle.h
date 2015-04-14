@@ -35,6 +35,7 @@ public:
 	void setXVel( int newVel );
 	//int getXVel();
 	void render( SDL_Renderer* );
+	void render( SDL_Renderer*, SDL_Texture* );
 
 };
 
