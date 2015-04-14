@@ -43,6 +43,9 @@ void Ball::move() { //doesn't work yet
 	else if( yPos >= bottomBoundry - radius ) {
 		yPos = bottomBoundry - radius;
 		yVel *= -1;
+
+		/* GAME OVER! display translucent black screen with "GAME OVER" and score, with menu and ability to play again
+		*/
 	}
 }
 

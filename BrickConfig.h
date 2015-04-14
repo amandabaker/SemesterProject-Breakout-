@@ -20,6 +20,7 @@ class BrickConfig {
 	int numCol;
 	int numRow;
 	int numBricks;
+	int numBricksLeft;
 	int brickWidth;
 	int brickHeight;
 	int spaceBtwn;
