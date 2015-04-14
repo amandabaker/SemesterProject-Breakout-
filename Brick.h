@@ -20,7 +20,9 @@ class Brick
 	int width;
 	int height;
 	bool exists;
-  
+	SDL_Rect srcrect;
+  	SDL_Rect dstrect;
+
 public:
   
 	Brick();

@@ -221,6 +221,20 @@ int main( int argc, char* args[]) {
 			Ball ball;
 			ball.set();
 
+			/*
+			SDL_Rect scoreViewport;
+			scoreViewport.x = 0;
+			scoreViewport.y = 0;
+			scoreViewport.w = SCREEN_WIDTH;
+			scoreViewport.h = 50;
+
+			SDL_Rect gameViewport;
+			gameViewport.x = 0;
+			gameViewport.y = scoreViewport.h;
+			gameViewport.w = SCREEN_WIDTH;
+			gameViewport.h = SCREEN_HEIGHT - gameViewport.y;
+			*/
+
 			unsigned int startTime;
       
 			//While game is running
@@ -259,14 +273,23 @@ int main( int argc, char* args[]) {
 							break;
 						}
 					}
+
 					paddle.movePaddle();
 					ball.move();
 					checkCollision( ball, brickConfig, paddle);
 
-					//Clear Screen 
+					//Clear Screen
 					SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
 					SDL_RenderClear( gRenderer );
 
+					//Update Scoreboard
+					//SDL_RenderSetViewport( gRenderer, &scoreViewport );
+					//SDL_SetRenderDrawColor( gRenderer, 0x1D, 0xE9, 0xB6, 0xFF ); 
+					//SDL_RenderFillRect( gRenderer, NULL );
+					//SDL_RenderPresent( gRenderer );
+
+					//Update Game screen
+					//SDL_RenderSetViewport( gRenderer, &gameViewport );
 					paddle.render( gRenderer, gTexture );
 					brickConfig.render( gRenderer, gTexture );
 					ball.render( gRenderer, gTexture );
@@ -278,13 +301,21 @@ int main( int argc, char* args[]) {
 				ball.move();  
 				checkCollision( ball, brickConfig, paddle );
 
+				//Clear Screen
 				SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
 				SDL_RenderClear( gRenderer );
 
+				//Update Scoreboard
+				//SDL_RenderSetViewport( gRenderer, &scoreViewport );
+				//SDL_SetRenderDrawColor( gRenderer, 0x1D, 0xE9, 0xB6, 0xFF ); 
+				//SDL_RenderFillRect( gRenderer, NULL );
+				//SDL_RenderPresent( gRenderer );
+
+				//Update Game Screen
+				//SDL_RenderSetViewport( gRenderer, &gameViewport );
 				paddle.render( gRenderer, gTexture );
 				brickConfig.render( gRenderer, gTexture );
 				ball.render( gRenderer, gTexture );
-				//SDL_RenderCopy( gRenderer, gTexture, NULL, NULL );
 
 				//Update screen
 				SDL_RenderPresent( gRenderer );

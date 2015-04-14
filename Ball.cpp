@@ -11,7 +11,7 @@ Ball::Ball() {
 void Ball::set() {
 	diameter = 15;
 	xPos = SCREEN_WIDTH / 2;
-	yPos = SCREEN_HEIGHT - 50 - diameter;
+	yPos = SCREEN_HEIGHT - 150 - diameter;
 
 	speed = 1; 
 	xVel = speed;

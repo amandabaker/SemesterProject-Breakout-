@@ -19,7 +19,7 @@ const int SCREEN_HEIGHT = 480;
 const int leftBoundry   = 0;
 const int rightBoundry  = SCREEN_WIDTH;
 const int topBoundry	  = 0;
-const int bottomBoundry = SCREEN_HEIGHT;
+const int bottomBoundry = SCREEN_HEIGHT - 50;
 
 enum KeyPressSurfaces 
 {
