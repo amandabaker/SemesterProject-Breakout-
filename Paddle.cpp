@@ -31,7 +31,7 @@ void Paddle::set() {
 	width = 100;
 	xPos = SCREEN_WIDTH/2 - width/2;
 	//yPos = SCREEN_HEIGHT - SCREEN_HEIGHT/12;
-	yPos = SCREEN_HEIGHT - 100;
+	yPos = SCREEN_HEIGHT - 50;
 	xVel = 0;
 	speed = 15; //
 }

@@ -11,7 +11,7 @@ Ball::Ball() {
 void Ball::set() {
 	diameter = 15;
 	xPos = SCREEN_WIDTH / 2;
-	yPos = SCREEN_HEIGHT - 150 - diameter;
+	yPos = SCREEN_HEIGHT - 50 - diameter;
 
 	speed = 1; 
 	xVel = speed;
@@ -23,7 +23,7 @@ void Ball::set() {
 	  lets be lazy and not mathematical for now :)			                       */					
 }
 
-void Ball::move() { //doesn't work yet
+bool Ball::move() { //doesn't work yet
 	xPos += xVel;
 	yPos += yVel;
 
@@ -43,10 +43,9 @@ void Ball::move() { //doesn't work yet
 	else if( yPos >= bottomBoundry - diameter ) {
 		yPos = bottomBoundry - diameter;
 		yVel *= -1;
-
-		/* GAME OVER! display translucent black screen with "GAME OVER" and score, with menu and ability to play again
-		*/
+		return false;
 	}
+	return true;
 }
 
 int Ball::left() {

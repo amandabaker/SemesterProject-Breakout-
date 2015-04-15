@@ -26,7 +26,7 @@ public:
 
 	Ball ();
 	void set();
-	void move();
+	bool move();
 	int left();
 	int right();
 	int top();

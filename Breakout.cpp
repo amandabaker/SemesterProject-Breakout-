@@ -1,13 +1,28 @@
-//#include <SDL2/SDL.h>
+#ifdef _WIN32
+#include <SDL.h>
+#elif __APPLE__
+#include <SDL2/SDL.h>
+#elif __linux
+#include <SDL2/SDL.h>
+#endif
 
-// ^^IF YOU'RE USING LINUX/MAC, USE THE INCLUDE ABOVE
-
-// vv IF YOU'RE USING WINDOWS, USE THE INCLUDE BELOW 
 #include <SDL.h>
 #include <SDL_image.h>
 #include <stdio.h>
 #include <string>
 #include "Breakout.h"
+
+/*
+
+	Score: 
+		kept as a function of time
+	Timer:
+		keeps time...
+	Main Menu:
+		Reset Bricks
+		Spacebar to play
+
+*/
 
 using namespace std;
 
@@ -40,7 +55,7 @@ bool init() {
 			printf( "Warning: Linear texture filtering not enabled!" );
 		}
 
-		//Create Window
+		//Create Window TODO BITCHES
 		gWindow = SDL_CreateWindow( "Breakout!", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
 		if( gWindow == NULL ) {
 			printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
@@ -49,9 +64,13 @@ bool init() {
 		else {
 			//Get window surface
 			//gScreenSurface = SDL_GetWindowSurface( gWindow );
-
-			gRenderer = SDL_CreateRenderer ( gWindow, -1, SDL_RENDERER_ACCELERATED );
-			if ( gRenderer == NULL ) {
+			if ( SDL_GetRenderer != NULL ) {
+				gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED );
+			}
+			else {
+				gRenderer = SDL_GetRenderer( gWindow );
+			}
+			if ( gRenderer == NULL ) { 
 				printf( "Renderer could not be created! SDL Error: %s\n", SDL_GetError() );
 				success = false;
 			}
@@ -221,19 +240,7 @@ int main( int argc, char* args[]) {
 			Ball ball;
 			ball.set();
 
-			/*
-			SDL_Rect scoreViewport;
-			scoreViewport.x = 0;
-			scoreViewport.y = 0;
-			scoreViewport.w = SCREEN_WIDTH;
-			scoreViewport.h = 50;
-
-			SDL_Rect gameViewport;
-			gameViewport.x = 0;
-			gameViewport.y = scoreViewport.h;
-			gameViewport.w = SCREEN_WIDTH;
-			gameViewport.h = SCREEN_HEIGHT - gameViewport.y;
-			*/
+			SDL_Rect scoreFrame = { 0, 0, SCREEN_WIDTH, scoreboardHeight };
 
 			unsigned int startTime;
       
@@ -275,21 +282,21 @@ int main( int argc, char* args[]) {
 					}
 
 					paddle.movePaddle();
-					ball.move();
+					if (!ball.move()) {
+						//Game Over
+					}
+					
 					checkCollision( ball, brickConfig, paddle);
 
 					//Clear Screen
 					SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
 					SDL_RenderClear( gRenderer );
 
-					//Update Scoreboard
-					//SDL_RenderSetViewport( gRenderer, &scoreViewport );
-					//SDL_SetRenderDrawColor( gRenderer, 0x1D, 0xE9, 0xB6, 0xFF ); 
-					//SDL_RenderFillRect( gRenderer, NULL );
-					//SDL_RenderPresent( gRenderer );
+					//Update Score Board
+					SDL_SetRenderDrawColor( gRenderer, 0x1D, 0xE9, 0xB6, 0xFF ); 
+					SDL_RenderFillRect( gRenderer, &scoreFrame );
 
 					//Update Game screen
-					//SDL_RenderSetViewport( gRenderer, &gameViewport );
 					paddle.render( gRenderer, gTexture );
 					brickConfig.render( gRenderer, gTexture );
 					ball.render( gRenderer, gTexture );
@@ -306,13 +313,10 @@ int main( int argc, char* args[]) {
 				SDL_RenderClear( gRenderer );
 
 				//Update Scoreboard
-				//SDL_RenderSetViewport( gRenderer, &scoreViewport );
-				//SDL_SetRenderDrawColor( gRenderer, 0x1D, 0xE9, 0xB6, 0xFF ); 
-				//SDL_RenderFillRect( gRenderer, NULL );
-				//SDL_RenderPresent( gRenderer );
+				SDL_SetRenderDrawColor( gRenderer, 0x1D, 0xE9, 0xB6, 0xFF ); 
+				SDL_RenderFillRect( gRenderer, &scoreFrame );
 
 				//Update Game Screen
-				//SDL_RenderSetViewport( gRenderer, &gameViewport );
 				paddle.render( gRenderer, gTexture );
 				brickConfig.render( gRenderer, gTexture );
 				ball.render( gRenderer, gTexture );

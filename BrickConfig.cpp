@@ -55,8 +55,8 @@ void BrickConfig::set() {
 	
 	for ( int i=0; i<numCol; i++ ) {		//i is horisontal iteration
 		for ( int j=0; j<numRow; j++ ) {	//j is vertical iteration
-			xPos = spaceEdge + i * (brickWidth + spaceBtwn);
-			yPos = spaceEdge + j * (brickHeight + spaceBtwn);
+			xPos = spaceEdge + i * (brickWidth + spaceBtwn) ;
+			yPos = spaceEdge + j * (brickHeight + spaceBtwn) + scoreboardHeight;
 			brickVect[ j*numCol + i ].set( xPos, yPos, brickWidth, brickHeight );
 		}
 	}

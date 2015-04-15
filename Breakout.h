@@ -15,11 +15,12 @@ class Ball;
 #include "Ball.h"
 
 const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
+const int SCREEN_HEIGHT = 640;
+const int scoreboardHeight = 50;
 const int leftBoundry   = 0;
 const int rightBoundry  = SCREEN_WIDTH;
-const int topBoundry	  = 0;
-const int bottomBoundry = SCREEN_HEIGHT - 50;
+const int topBoundry	= scoreboardHeight;
+const int bottomBoundry = SCREEN_HEIGHT;
 
 enum KeyPressSurfaces 
 {
