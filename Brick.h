@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 #ifndef _BRICK_H_INCLUDED_
 #define _BRICK_H_INCLUDED_
 
@@ -36,3 +37,25 @@ public:
 };
 
 #endif
+=======
+class Brick{
+	int xPos;
+	int yPos;
+	const int  widthBrick;
+	const int  heightBrick;
+
+public:
+	void setX_Brick(int X1);
+	void setY_Brick(int Y1);
+	void setWidth(int W);
+	void setHeight(int H);
+
+
+    int getX_Brick();
+	int getY_Brick();
+	int getWidth_Brick();
+	int getHeight_Brick();
+
+	
+};
+>>>>>>> Stashed changes

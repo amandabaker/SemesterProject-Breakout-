@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 #ifndef _BALL_H_INCLUDED_
 #define _BALL_H_INCLUDED_
 
@@ -37,3 +38,23 @@ public:
 };
 
 #endif
+=======
+class Ball{
+	int xPos;
+	int yPos;
+	int speedX;
+	int speedY;
+	const int  widthBall;
+	const int  heightBall;
+
+public:
+	getX_Ball();
+	getY_Ball();
+	getBallSpeed_X();
+	getBallSpeed_Y();
+	getWidth_Ball();
+	getHeight_Ball();
+
+};
+
+>>>>>>> Stashed changes

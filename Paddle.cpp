@@ -1,4 +1,5 @@
 #include "Paddle.h"
+<<<<<<< Updated upstream
 using namespace std;
 
 Paddle::Paddle() {
@@ -55,3 +56,40 @@ void Paddle::render( SDL_Renderer* gRenderer ) {
 	SDL_SetRenderDrawColor( gRenderer, 0x50, 0x90, 0xFF, 0xFF );
 	SDL_RenderFillRect( gRenderer, &fillRect );
 }
+=======
+
+using namespace std;
+
+Paddle::Paddle(){
+
+}
+
+
+
+void Paddle::move(){
+	xPos += speed;
+
+	if(xPos <= leftboundry)
+	{
+		xPos = leftboundry;
+	}
+
+	if(xPos >= rightboundry)
+	{
+		xPos = rightboundry;
+	}
+}
+
+void Paddle::setSpeed(double Speed1){
+	speed = Speed1;
+}
+
+double Paddle::getSpeed(){
+	return xPos;
+}
+
+void Paddle::getX(){
+
+}
+
+>>>>>>> Stashed changes

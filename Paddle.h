@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 #ifndef _PADDLE_H_INCLUDED_
 #define _PADDLE_H_INCLUDED_
 
@@ -39,6 +40,37 @@ public:
 };
 
 #endif
+=======
+class Paddle
+{
+	double xPos;
+	const double  yPos;
+	int speed;
+	const int width;
+	const int  height;
+
+	SDL_Texture * padIMG;
+	SDL_Render * padREND;
+
+
+    public:
+
+    Paddle(SDL_Renderer * padREND, double speed, double startX);
+	void setX(double Xp);
+	void setSpeed(double spd);
+	void setHeight(int Hp);
+	void setWidth(int Wp);
+
+
+	void movePaddle();
+
+	double getX();
+	double getSpeed();
+	int getHeight();
+	int getWidth();
+
+};
+>>>>>>> Stashed changes
 
 
 
