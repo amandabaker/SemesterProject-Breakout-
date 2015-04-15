@@ -6,9 +6,6 @@ class Brick;
 class BrickConfig;
 class Ball;
 
-#include <SDL.h>
-#include <stdio.h>
-#include <string>
 #include "Breakout.h"
 #include "Brick.h"
 #include "BrickConfig.h"

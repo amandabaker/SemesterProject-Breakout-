@@ -6,9 +6,6 @@ class Brick;
 class Paddle;
 class Ball;
 
-#include <SDL.h>
-#include <stdio.h>
-#include <string>
 #include <vector>
 #include "Breakout.h"
 #include "Brick.h"
