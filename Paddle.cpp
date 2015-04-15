@@ -30,7 +30,8 @@ void Paddle::set() {
 	height = 20;
 	width = 100;
 	xPos = SCREEN_WIDTH/2 - width/2;
-	yPos = SCREEN_HEIGHT - SCREEN_HEIGHT/12;
+	//yPos = SCREEN_HEIGHT - SCREEN_HEIGHT/12;
+	yPos = SCREEN_HEIGHT - 50;
 	xVel = 0;
 	speed = 15; //
 }
@@ -55,3 +56,19 @@ void Paddle::render( SDL_Renderer* gRenderer ) {
 	SDL_SetRenderDrawColor( gRenderer, 0x50, 0x90, 0xFF, 0xFF );
 	SDL_RenderFillRect( gRenderer, &fillRect );
 }
+
+void Paddle::render( SDL_Renderer* gRenderer, SDL_Texture* gTexture ) {
+	SDL_Rect srcrect;
+	SDL_Rect dstrect;
+	srcrect.x = 0;
+	srcrect.y = 80;
+	srcrect.w = 100;
+	srcrect.h = 20;
+	dstrect.x = xPos;
+	dstrect.y = yPos;
+	dstrect.w = width;
+	dstrect.h = height;
+	SDL_RenderCopy( gRenderer, gTexture, &srcrect, &dstrect );
+}
+
+
