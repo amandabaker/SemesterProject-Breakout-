@@ -2,7 +2,7 @@ OBJS = Breakout.cpp Ball.cpp Brick.cpp BrickConfig.cpp Paddle.cpp
 
 CC = g++
 
-COMPILER_FLAGS = -Wall 
+COMPILER_FLAGS = #-Wall 
 
 LINKER_FLAGS = -lSDL2 -lSDL2_image
 

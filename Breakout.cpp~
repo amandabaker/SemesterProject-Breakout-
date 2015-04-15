@@ -18,14 +18,13 @@ bool init();
 bool loadMedia();
 bool checkCollision( SDL_Rect a, SDL_Rect b );
 void close();
-SDL_Window*   gWindow      = NULL;
+SDL_Window*   gWindow   = NULL;
 SDL_Surface*  loadSurface( std::string path );
 SDL_Surface*  gKeyPressSurfaces[ KEY_PRESS_SURFACE_TOTAL ];
-SDL_Renderer* gRenderer	   = NULL;
-SDL_Texture*  gTexture     = NULL;
+SDL_Renderer* gRenderer	= NULL;
+SDL_Texture*  gTexture  = NULL;
 SDL_Texture*  loadTexture( std::string path );
-TTF_Font*     gFont        = NULL;
-LTexture      gTextTexture;
+TTF_Font*     gFont     = NULL;
 
 
 LTexture::LTexture() {
@@ -69,12 +68,12 @@ bool LTexture::loadFromFile( std::string path, SDL_Renderer* gRenderer ) {
   return mTexture != NULL;
 }
 
-bool LTexture::loadFromRenderedText( std::string textureText, SDL_Color textColor ){
+bool LTexture::loadFromRenderedText( std::string textureText, SDL_Color textColor, SDL_Renderer* gRenderer, TTF_Font* gFont ){
   
   free();
 
   SDL_Surface* textSurface = TTF_RenderText_Solid( gFont, textureText.c_str(), textColor );
-  if( textSurface == NULL ) {
+  if( textSurface == NULL ){
     printf( "Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError() );
   }
   else {
@@ -150,7 +149,7 @@ bool init() {
 			printf( "Warning: Linear texture filtering not enabled!" );
 		}
 
-		//Create Window TODO
+		//Create Window TODO BITCHES
 		gWindow = SDL_CreateWindow( "Breakout!", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
 		if( gWindow == NULL ) {
 			printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
@@ -178,13 +177,11 @@ bool init() {
 					printf( "SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError() );
 					success = false;
 				}
-        //Initialize SDL_ttf
-        if( TTF_Init() == -1 ) {
-          printf( "SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError() );
-        }
+				
 			}
 		}
-  }
+	  
+	}
 	return success;
 }
 
@@ -192,21 +189,6 @@ bool loadMedia() {
 	
 	//Loading success flag
 	bool success = true;
- 
-  //open font
-  gFont = TTF_OpenFont( "Roboto-Font/Roboto-Thin.ttf", 36 );
-  if( gFont == NULL ) {
-    printf( "Failed to load font! SDL_ttf Error: %s\n", TTF_GetError() );
-    success = false;
-  }
-  else {
-    //Render text
-    SDL_Color textColor = { 0, 0, 0 };
-    if( !gTextTexture.loadFromRenderedText( "Texttttt", textColor ) ) {
-      printf( "Failed to render text texture!\n" );
-      success = false;
-    }
-  }
   
 	//Load PNG texture
 	gTexture = loadTexture( "PNG/sprites.png" );
@@ -224,11 +206,11 @@ bool checkCollision ( Ball &ball, BrickConfig &brickConfig, Paddle &paddle ) {
 	int topBall,	topBrick,		topPaddle;
 	int bottomBall,	bottomBrick,	bottomPaddle;
 
-	leftBall   = ball.left();					
-	rightBall  = ball.right();
-	topBall	 	 = ball.top();
-	bottomBall = ball.bottom();
- 
+	leftBall	= ball.left();					
+	rightBall	= ball.right();
+	topBall		= ball.top();
+	bottomBall  = ball.bottom();
+
 	//check collision with bricks
 	for ( int i=0; i < brickConfig.size(); i++) { 
 		
@@ -274,12 +256,7 @@ void close() {
 	//SDL_FreeSurface( gScreenSurface );
 	//SDL_FreeSurface( gCurrentSurface );
 
-	gTextTexture.free();
-
-  TTF_CloseFont( gFont );
-  gFont = NULL;
-  
-  SDL_DestroyTexture( gTexture );
+	SDL_DestroyTexture( gTexture );
 	gTexture = NULL;
   
 	//Destory Window
@@ -289,7 +266,6 @@ void close() {
 	gRenderer = NULL;
   
 	//Quit SDL subsystems
-  TTF_Quit();
 	IMG_Quit();
 	SDL_Quit();
 }

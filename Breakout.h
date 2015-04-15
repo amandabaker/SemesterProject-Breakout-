@@ -9,16 +9,21 @@ class Ball;
 #ifdef _WIN32
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 #elif __APPLE__
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #elif __linux
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #endif
 
 #include <iostream>
 #include <stdio.h>
+#include <string>
+#include <cmath>
 #include "Paddle.h"
 #include "Brick.h"
 #include "BrickConfig.h"
@@ -39,6 +44,27 @@ enum KeyPressSurfaces
 	KEY_PRESS_SURFACE_RIGHT,
 	KEY_PRESS_SURFACE_SPACEBAR,
 	KEY_PRESS_SURFACE_TOTAL /*used to count number of all keys used for array size*/
+};
+
+class LTexture {
+  
+  public:
+    LTexture();
+    ~LTexture();
+    bool loadFromFile( std::string path, SDL_Renderer* gRenderer );
+    bool loadFromRenderedText( std::string textureText, SDL_Color textColor );
+    void free();
+    void setColor( Uint8 red, Uint8 green, Uint8 blue  );
+    void setBlendMode( SDL_BlendMode blending );
+    void setAlpha( Uint8 alpha );
+    void render( int x, int y, SDL_Renderer* gRenderer, SDL_Rect* clip = NULL, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE );
+    int getWidth();
+    int getHeight();
+
+  private:
+    SDL_Texture* mTexture;
+    int mWidth;
+    int mHeight;
 };
 
 #endif
