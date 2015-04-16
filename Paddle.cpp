@@ -70,5 +70,3 @@ void Paddle::render( SDL_Renderer* gRenderer, SDL_Texture* gTexture ) {
 	dstrect.h = height;
 	SDL_RenderCopy( gRenderer, gTexture, &srcrect, &dstrect );
 }
-
-

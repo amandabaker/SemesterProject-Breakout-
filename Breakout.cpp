@@ -14,7 +14,6 @@
 #include "Breakout.h"
 
 /*
-
 	Score: 
 		kept as a function of time
 	Timer:
@@ -22,7 +21,6 @@
 	Main Menu:
 		Reset Bricks
 		Spacebar to play
-
 */
 
 using namespace std;
