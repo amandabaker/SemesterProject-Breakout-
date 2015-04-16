@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 #ifndef _BALL_H_INCLUDED_
 #define _BALL_H_INCLUDED_
 
@@ -16,7 +15,7 @@ class Brick;
 
 class Ball
 {
-	int radius;
+	int diameter;
 	int xPos;
 	int yPos;
 	int xVel;
@@ -27,34 +26,14 @@ public:
 
 	Ball ();
 	void set();
-	void move();
+	bool move();
 	int left();
 	int right();
 	int top();
 	int bottom();
 	void changeYDir();
 	void render( SDL_Renderer* );
-    
+    void render( SDL_Renderer*, SDL_Texture* );
 };
 
 #endif
-=======
-class Ball{
-	int xPos;
-	int yPos;
-	int speedX;
-	int speedY;
-	const int  widthBall;
-	const int  heightBall;
-
-public:
-	getX_Ball();
-	getY_Ball();
-	getBallSpeed_X();
-	getBallSpeed_Y();
-	getWidth_Ball();
-	getHeight_Ball();
-
-};
-
->>>>>>> Stashed changes
