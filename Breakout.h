@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 #ifndef _BREAKOUT_H_INCLUDED_
 #define _BREAKOUT_H_INCLUDED_
 
@@ -7,8 +6,18 @@ class Brick;
 class BrickConfig;
 class Ball;
 
-#include <iostream>
+#ifdef _WIN32
 #include <SDL.h>
+#include <SDL_image.h>
+#elif __APPLE__
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#elif __linux
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#endif
+
+#include <iostream>
 #include <stdio.h>
 #include "Paddle.h"
 #include "Brick.h"
@@ -16,10 +25,11 @@ class Ball;
 #include "Ball.h"
 
 const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
+const int SCREEN_HEIGHT = 640;
+const int scoreboardHeight = 50;
 const int leftBoundry   = 0;
 const int rightBoundry  = SCREEN_WIDTH;
-const int topBoundry	  = 0;
+const int topBoundry	= scoreboardHeight;
 const int bottomBoundry = SCREEN_HEIGHT;
 
 enum KeyPressSurfaces 
@@ -32,15 +42,3 @@ enum KeyPressSurfaces
 };
 
 #endif
-=======
-
-
-
-
-
-
-
-
-
-
->>>>>>> Stashed changes
