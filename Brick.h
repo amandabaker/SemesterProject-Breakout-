@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 #ifndef _BRICK_H_INCLUDED_
 #define _BRICK_H_INCLUDED_
 
@@ -7,8 +6,6 @@ class Paddle;
 class BrickConfig;
 class Ball;
 
-#include <SDL.h>
-#include <stdio.h>
 #include "Breakout.h"
 #include "Paddle.h"
 #include "BrickConfig.h"
@@ -21,7 +18,9 @@ class Brick
 	int width;
 	int height;
 	bool exists;
-  
+	SDL_Rect srcrect;
+  	SDL_Rect dstrect;
+
 public:
   
 	Brick();
@@ -33,29 +32,8 @@ public:
 	void set( int x, int y, int width, int height );
 	void destroy();
 	void render( SDL_Renderer* );
+	void render( SDL_Renderer*, SDL_Texture* );
     
 };
 
 #endif
-=======
-class Brick{
-	int xPos;
-	int yPos;
-	const int  widthBrick;
-	const int  heightBrick;
-
-public:
-	void setX_Brick(int X1);
-	void setY_Brick(int Y1);
-	void setWidth(int W);
-	void setHeight(int H);
-
-
-    int getX_Brick();
-	int getY_Brick();
-	int getWidth_Brick();
-	int getHeight_Brick();
-
-	
-};
->>>>>>> Stashed changes
