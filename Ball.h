@@ -31,6 +31,7 @@ public:
 	int right();
 	int top();
 	int bottom();
+	void changeXDir();
 	void changeYDir();
 	void render( SDL_Renderer* );
     void render( SDL_Renderer*, SDL_Texture* );
