@@ -42,8 +42,10 @@ void BrickConfig::set() {
 	numCol = 10;
 	numRow = 5;
 	numBricks = numCol * numRow;
-	brickWidth = SCREEN_WIDTH / (numCol + 2);
-	brickHeight = brickWidth/2;
+	//brickWidth = SCREEN_WIDTH / (numCol + 2);
+	//brickHeight = brickWidth/2;
+	brickWidth = 50;
+	brickHeight = 25;
 	spaceBtwn = SCREEN_WIDTH / (numCol + 2) / (numCol - 1) * 2;
 	spaceEdge = ( SCREEN_WIDTH - brickWidth * numCol - spaceBtwn * (numCol - 1) ) / 2;
 	xPos = 0;
@@ -53,8 +55,8 @@ void BrickConfig::set() {
 	
 	for ( int i=0; i<numCol; i++ ) {		//i is horisontal iteration
 		for ( int j=0; j<numRow; j++ ) {	//j is vertical iteration
-			xPos = spaceEdge + i * (brickWidth + spaceBtwn);
-			yPos = spaceEdge + j * (brickHeight + spaceBtwn);
+			xPos = spaceEdge + i * (brickWidth + spaceBtwn) ;
+			yPos = spaceEdge + j * (brickHeight + spaceBtwn) + scoreboardHeight;
 			brickVect[ j*numCol + i ].set( xPos, yPos, brickWidth, brickHeight );
 		}
 	}
@@ -65,13 +67,8 @@ void BrickConfig::destroy( int brickNum ) {
 	numBricksLeft--;
 }
 
-void BrickConfig::render( SDL_Renderer* gRenderer ) {
+void BrickConfig::render( SDL_Renderer* gRenderer, SDL_Texture* gTexture ) {
 	for ( int i=0; i<numBricks; i++ ) {	
-		brickVect[ i ].render( gRenderer );
+		brickVect[ i ].render( gRenderer, gTexture );
 	}
-}
-
-void BrickConfig::removeBrick(int row, int col){
-	numBricks --;
-}
 }
