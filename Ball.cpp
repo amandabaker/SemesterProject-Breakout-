@@ -86,3 +86,17 @@ void Ball::render( SDL_Renderer *gRenderer, SDL_Texture *gTexture ) {
 	dstrect.h = diameter;
 	SDL_RenderCopy( gRenderer, gTexture, &srcrect, &dstrect );
 }
+
+void Ball::render( SDL_Renderer *gRenderer, SDL_Texture *gTexture ) {
+	SDL_Rect srcrect;
+	SDL_Rect dstrect;
+	srcrect.x = 0;
+	srcrect.y = 0;
+	srcrect.w = 30;
+	srcrect.h = 30;
+	dstrect.x = xPos;
+	dstrect.y = yPos;
+	dstrect.w = diameter;
+	dstrect.h = diameter;
+	SDL_RenderCopy( gRenderer, gTexture, &srcrect, &dstrect );
+}
