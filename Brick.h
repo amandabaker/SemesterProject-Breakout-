@@ -6,8 +6,6 @@ class Paddle;
 class BrickConfig;
 class Ball;
 
-#include <SDL.h>
-#include <stdio.h>
 #include "Breakout.h"
 #include "Paddle.h"
 #include "BrickConfig.h"
@@ -20,7 +18,9 @@ class Brick
 	int width;
 	int height;
 	bool exists;
-  
+	SDL_Rect srcrect;
+  	SDL_Rect dstrect;
+
 public:
   
 	Brick();
@@ -32,6 +32,7 @@ public:
 	void set( int x, int y, int width, int height );
 	void destroy();
 	void render( SDL_Renderer* );
+	void render( SDL_Renderer*, SDL_Texture* );
     
 };
 

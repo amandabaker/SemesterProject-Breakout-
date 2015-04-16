@@ -1,12 +1,29 @@
-//#include <SDL2/SDL.h>
-
-// ^^IF YOU'RE USING LINUX/MAC, USE THE INCLUDE ABOVE
-
-// vv IF YOU'RE USING WINDOWS, USE THE INCLUDE BELOW 
+#ifdef _WIN32
 #include <SDL.h>
+#include <SDL_image.h>
+#elif __APPLE__
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#elif __linux
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#endif
+
 #include <stdio.h>
 #include <string>
 #include "Breakout.h"
+
+/*
+
+	Score: 
+		kept as a function of time
+	Timer:
+		keeps time...
+	Main Menu:
+		Reset Bricks
+		Spacebar to play
+
+*/
 
 using namespace std;
 
@@ -14,12 +31,14 @@ bool init();
 bool loadMedia();
 bool checkCollision( SDL_Rect a, SDL_Rect b );
 void close();
-SDL_Window* gWindow = NULL;
-SDL_Surface* loadSurface( std::string path );
-SDL_Surface* gScreenSurface = NULL;
-SDL_Surface* gCurrentSurface = NULL;
-SDL_Surface* gKeyPressSurfaces[ KEY_PRESS_SURFACE_TOTAL ];
-SDL_Renderer* gRenderer = NULL;
+SDL_Window*   gWindow = NULL;
+SDL_Surface*  loadSurface( std::string path );
+//SDL_Surface*  gScreenSurface = NULL;
+//SDL_Surface*  gCurrentSurface = NULL;
+SDL_Surface*  gKeyPressSurfaces[ KEY_PRESS_SURFACE_TOTAL ];
+SDL_Renderer* gRenderer	= NULL;
+SDL_Texture*  gTexture = NULL;
+SDL_Texture*  loadTexture( std::string path );
 
 bool init() {
 	
@@ -32,7 +51,12 @@ bool init() {
 		success = false;
 	}
 	else {
-		//Create Window
+		//Set texture filtering to linear
+		if( !SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, "1" ) ) {
+			printf( "Warning: Linear texture filtering not enabled!" );
+		}
+
+		//Create Window TODO BITCHES
 		gWindow = SDL_CreateWindow( "Breakout!", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN );
 		if( gWindow == NULL ) {
 			printf( "Window could not be created! SDL_Error: %s\n", SDL_GetError() );
@@ -40,14 +64,27 @@ bool init() {
 		}
 		else {
 			//Get window surface
-			gScreenSurface = SDL_GetWindowSurface( gWindow );
-			gRenderer = SDL_CreateRenderer ( gWindow, -1, SDL_RENDERER_ACCELERATED );
-			if ( gRenderer == NULL ) {
+			//gScreenSurface = SDL_GetWindowSurface( gWindow );
+			if ( SDL_GetRenderer != NULL ) {
+				gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED );
+			}
+			else {
+				gRenderer = SDL_GetRenderer( gWindow );
+			}
+			if ( gRenderer == NULL ) { 
 				printf( "Renderer could not be created! SDL Error: %s\n", SDL_GetError() );
 				success = false;
 			}
 			else {
-				SDL_SetRenderDrawColor( gRenderer, 0x00, 0x00, 0x00, 0xFF );
+				SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
+
+				//Initialize PNG loading
+				int imgFlags = IMG_INIT_PNG;
+				if( !(IMG_Init( imgFlags ) & imgFlags ) ) {
+					printf( "SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError() );
+					success = false;
+				}
+				
 			}
 		}
 	  
@@ -60,11 +97,15 @@ bool loadMedia() {
 	//Loading success flag
 	bool success = true;
   
-	//TODO here is where we would load a background if necessary. 
+	//Load PNG texture
+	gTexture = loadTexture( "PNG/sprites.png" );
+	if( gTexture == NULL ) {
+		printf( "Failed to load texture image!\n" );
+		success = false;
+	}
 
 	return success;
 }
-
 
 bool checkCollision ( Ball &ball, BrickConfig &brickConfig, Paddle &paddle ) {
 	int leftBall,	leftBrick,		leftPaddle;
@@ -119,15 +160,20 @@ void close() {
 		SDL_FreeSurface( gKeyPressSurfaces[ i ] );
 		gKeyPressSurfaces[ i ] = NULL;
 	}
-	SDL_FreeSurface( gScreenSurface );
-	SDL_FreeSurface( gCurrentSurface );
+	//SDL_FreeSurface( gScreenSurface );
+	//SDL_FreeSurface( gCurrentSurface );
+
+	SDL_DestroyTexture( gTexture );
+	gTexture = NULL;
   
 	//Destory Window
 	SDL_DestroyWindow( gWindow );
 	SDL_DestroyRenderer( gRenderer );
-	gWindow = NULL;
+	gWindow   = NULL;
+	gRenderer = NULL;
   
 	//Quit SDL subsystems
+	IMG_Quit();
 	SDL_Quit();
 }
 
@@ -140,6 +186,30 @@ SDL_Surface* loadSurface( std::string path ) {  /*THIS MAY NOT BE NECESSARY FOR 
 	}
 	return loadedSurface;
 }
+
+SDL_Texture* loadTexture( std::string path ) {
+
+	//The final Texture
+	SDL_Texture* newTexture = NULL;
+
+	//Load image at specified path
+	SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
+	if( loadedSurface == NULL ) {
+		printf( "Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError() );
+	}
+	else {
+		//Create texture from surface pixels
+		newTexture = SDL_CreateTextureFromSurface( gRenderer, loadedSurface );
+		if( newTexture == NULL ) {
+			printf( "Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
+		}
+		
+		//Get rid of old loaded surface
+		SDL_FreeSurface( loadedSurface );
+	}
+	return newTexture;
+}
+
 
 int main( int argc, char* args[]) {
   
@@ -170,6 +240,8 @@ int main( int argc, char* args[]) {
 			//Create Ball
 			Ball ball;
 			ball.set();
+
+			SDL_Rect scoreFrame = { 0, 0, SCREEN_WIDTH, scoreboardHeight };
 
 			unsigned int startTime;
       
@@ -209,17 +281,26 @@ int main( int argc, char* args[]) {
 							break;
 						}
 					}
+
 					paddle.movePaddle();
-					ball.move();
+					if (!ball.move()) {
+						//Game Over
+					}
+					
 					checkCollision( ball, brickConfig, paddle);
 
-					//Clear Screen 
-					SDL_SetRenderDrawColor( gRenderer, 0x00, 0x00, 0x00, 0xFF );
+					//Clear Screen
+					SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
 					SDL_RenderClear( gRenderer );
 
-					paddle.render( gRenderer );
-					brickConfig.render( gRenderer );
-					ball.render( gRenderer );
+					//Update Score Board
+					SDL_SetRenderDrawColor( gRenderer, 0x1D, 0xE9, 0xB6, 0xFF ); 
+					SDL_RenderFillRect( gRenderer, &scoreFrame );
+
+					//Update Game screen
+					paddle.render( gRenderer, gTexture );
+					brickConfig.render( gRenderer, gTexture );
+					ball.render( gRenderer, gTexture );
 
 					//Update screen
 					SDL_RenderPresent( gRenderer );
@@ -228,12 +309,18 @@ int main( int argc, char* args[]) {
 				ball.move();  
 				checkCollision( ball, brickConfig, paddle );
 
-				SDL_SetRenderDrawColor( gRenderer, 0x00, 0x00, 0x00, 0xFF );
+				//Clear Screen
+				SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
 				SDL_RenderClear( gRenderer );
 
-				paddle.render( gRenderer );
-				brickConfig.render( gRenderer );
-				ball.render( gRenderer );
+				//Update Scoreboard
+				SDL_SetRenderDrawColor( gRenderer, 0x1D, 0xE9, 0xB6, 0xFF ); 
+				SDL_RenderFillRect( gRenderer, &scoreFrame );
+
+				//Update Game Screen
+				paddle.render( gRenderer, gTexture );
+				brickConfig.render( gRenderer, gTexture );
+				ball.render( gRenderer, gTexture );
 
 				//Update screen
 				SDL_RenderPresent( gRenderer );

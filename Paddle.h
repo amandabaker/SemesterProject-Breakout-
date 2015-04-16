@@ -6,9 +6,6 @@ class Brick;
 class BrickConfig;
 class Ball;
 
-#include <SDL.h>
-#include <stdio.h>
-#include <string>
 #include "Breakout.h"
 #include "Brick.h"
 #include "BrickConfig.h"
@@ -35,6 +32,7 @@ public:
 	void setXVel( int newVel );
 	//int getXVel();
 	void render( SDL_Renderer* );
+	void render( SDL_Renderer*, SDL_Texture* );
 
 };
 
