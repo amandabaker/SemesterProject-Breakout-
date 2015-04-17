@@ -63,6 +63,11 @@ int Ball::top() {
 int Ball::bottom() {
 	return yPos + diameter;
 }
+
+void Ball::changeXDir() {
+	xVel *= -1;
+}
+
 void Ball::changeYDir() {
 	yVel *= -1;
 }
