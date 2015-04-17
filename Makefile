@@ -4,7 +4,7 @@ CC = g++
 
 COMPILER_FLAGS = #-Wall 
 
-LINKER_FLAGS = -lSDL2 -lSDL2_image
+LINKER_FLAGS = -lSDL2 -lSDL2_image -SDL2_ttf
 
 OBJ_NAME = Breakout
 
