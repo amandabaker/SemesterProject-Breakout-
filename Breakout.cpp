@@ -9,7 +9,6 @@
 	Main Menu:
 		Reset Bricks
 		Spacebar to play
-
 */
 
 using namespace std;
