@@ -55,8 +55,6 @@ int Paddle::getXVel(){
 	return xVel;
 }
 
-}
-
 void Paddle::render( SDL_Renderer* gRenderer ) {
 	SDL_Rect fillRect = { xPos, yPos, width, height };
 	SDL_SetRenderDrawColor( gRenderer, 0x50, 0x90, 0xFF, 0xFF );

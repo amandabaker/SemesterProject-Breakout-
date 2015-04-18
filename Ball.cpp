@@ -74,7 +74,6 @@ void Ball::changeYDir() {
 int Ball::getxVel(){
 	return xVel;
 }
-}
 
 void Ball::render( SDL_Renderer *gRenderer ) {
 	SDL_Rect fillRect = { xPos, yPos, diameter, diameter };
