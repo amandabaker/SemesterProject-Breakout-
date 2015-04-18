@@ -224,9 +224,9 @@ bool checkCollision ( Ball &ball, BrickConfig &brickConfig, Paddle &paddle, Scor
 	topBall	   = ball.top();
 	bottomBall = ball.bottom();
 	speed	   = -1 - ball.getSpeed();
-	xVelBall = ball.getXVel();
-	xVelPaddle = paddle.getXvel();
- 
+	xVelBall = ball.getxVel();
+	xVelPaddle = paddle.getXVel();
+ 	int directionHit = xVelBall * xVelPaddle;
 	//check collision with bricks
 	for ( int i=0; i < brickConfig.size(); i++) { 
 		
@@ -258,7 +258,7 @@ bool checkCollision ( Ball &ball, BrickConfig &brickConfig, Paddle &paddle, Scor
 	rightPaddle  = paddle.right();
 	topPaddle	 = paddle.top();
 	bottomPaddle = paddle.bottom();
-
+	
 	//check collision with paddle
 	do {
 		if	   ( bottomBall <= topPaddle )		continue;
@@ -266,8 +266,13 @@ bool checkCollision ( Ball &ball, BrickConfig &brickConfig, Paddle &paddle, Scor
 		else if( rightBall	<= leftPaddle )		continue;
 		else if( leftBall	>= rightPaddle )	continue;
 		else {
-			if     ( topPaddle - bottomBall == -2 || topBall - bottomPaddle == -2 ) {
-				ball.changeYDir();
+			if    ( topPaddle - bottomBall == -2 || topBall - bottomPaddle == -2 ) {
+				       ball.changeYDir();
+				   if(dierctionHit < 0){
+					ball.changeXDir();
+					}
+				}
+				
 			}
 			else if( leftPaddle - rightBall == -2 || leftBall - rightPaddle == -2 ) {
 				ball.changeXDir();
