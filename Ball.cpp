@@ -71,6 +71,11 @@ void Ball::changeYDir() {
 	yVel *= -1;
 }
 
+int Ball::getxVel(){
+	return xVel;
+}
+}
+
 void Ball::render( SDL_Renderer *gRenderer ) {
 	SDL_Rect fillRect = { xPos, yPos, diameter, diameter };
 	SDL_SetRenderDrawColor( gRenderer, 0x50, 0xFF, 0x90, 0xFF );
