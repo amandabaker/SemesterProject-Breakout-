@@ -217,12 +217,15 @@ bool checkCollision ( Ball &ball, BrickConfig &brickConfig, Paddle &paddle, Scor
 	int topBall,	topBrick,		topPaddle;
 	int bottomBall,	bottomBrick,	bottomPaddle;
 	int speed;
+	int xVelBall, xVelPaddle;
 
 	leftBall   = ball.left();					
 	rightBall  = ball.right();
 	topBall	   = ball.top();
 	bottomBall = ball.bottom();
 	speed	   = -1 - ball.getSpeed();
+	xVelBall = ball.getXVel();
+	xVelPaddle = paddle.getXvel();
  
 	//check collision with bricks
 	for ( int i=0; i < brickConfig.size(); i++) { 
