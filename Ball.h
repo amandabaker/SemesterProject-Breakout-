@@ -6,8 +6,6 @@ class Paddle;
 class BrickConfig;
 class Brick;
 
-#include <stdio.h>
-#include <cmath>
 #include "Breakout.h"
 #include "Paddle.h"
 #include "BrickConfig.h"
@@ -31,6 +29,7 @@ public:
 	int right();
 	int top();
 	int bottom();
+	int getSpeed();
 	void changeXDir();
 	void changeYDir();
 	void render( SDL_Renderer* );
