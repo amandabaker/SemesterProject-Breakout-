@@ -1,10 +1,10 @@
-OBJS = Breakout.cpp Ball.cpp Brick.cpp BrickConfig.cpp Paddle.cpp
+OBJS = Breakout.cpp Ball.cpp Brick.cpp BrickConfig.cpp Paddle.cpp Scoreboard.cpp
 
 CC = g++
 
-COMPILER_FLAGS = #-Wall 
+COMPILER_FLAGS = -Wall -std=c++0x 
 
-LINKER_FLAGS = -lSDL2 -lSDL2_image -SDL2_ttf
+LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf
 
 OBJ_NAME = Breakout
 
