@@ -30,6 +30,7 @@ public:
 	int top();
 	int bottom();
 	int getSpeed();
+	int getxVel();
 	void changeXDir();
 	void changeYDir();
 	void render( SDL_Renderer* );
