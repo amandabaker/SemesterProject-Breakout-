@@ -32,7 +32,7 @@ void Scoreboard::addScore( int points ) {
 }
 
 void Scoreboard::render( SDL_Renderer* gRenderer, TTF_Font* gFont, LTexture gTextTexture ) {
-	string s = to_string( static_cast<long long>( score ) );
+	string s = std::to_string( static_cast<long long>( score ) );
 	s = string( 10 - s.size(), ' ' ) + s;
 	string text = "Score: " + s;
 	gTextTexture.loadFromRenderedText( text, textColor );
