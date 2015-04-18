@@ -268,7 +268,7 @@ bool checkCollision ( Ball &ball, BrickConfig &brickConfig, Paddle &paddle, Scor
 		else {
 			if    ( topPaddle - bottomBall == -2 || topBall - bottomPaddle == -2 ) {
 				       ball.changeYDir();
-				   if(dierctionHit < 0){
+				   if(directionHit < 0){
 					ball.changeXDir();
 					}
 				}
