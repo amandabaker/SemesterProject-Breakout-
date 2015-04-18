@@ -18,13 +18,13 @@ bool loadMedia();
 bool checkCollision( SDL_Rect a, SDL_Rect b );
 void close();
 SDL_Window*   gWindow      = NULL;
-SDL_Surface*  loadSurface( std::string path );
-SDL_Surface*  gKeyPressSurfaces[ KEY_PRESS_SURFACE_TOTAL ];
 SDL_Renderer* gRenderer	   = NULL;
 SDL_Texture*  gTexture     = NULL;
-SDL_Texture*  loadTexture( std::string path );
 TTF_Font*     gFont        = NULL;
 LTexture      gTextTexture;
+SDL_Surface*  loadSurface( std::string path );
+SDL_Surface*  gKeyPressSurfaces[ KEY_PRESS_SURFACE_TOTAL ];
+SDL_Texture*  loadTexture( std::string path );
 
 
 LTexture::LTexture() {
@@ -114,17 +114,7 @@ void LTexture::setAlpha( Uint8 alpha ) {
 	SDL_SetTextureAlphaMod( mTexture, alpha );
 }
 
-void LTexture::render( int x, int y, SDL_Renderer* gRenderer, SDL_Rect* clip, double angle, SDL_Point* center, SDL_RendererFlip flip ) {
-	SDL_Rect renderQuad = { x, y, mWidth, mHeight };
-
-	if( clip != NULL ) {
-		renderQuad.w = clip->w;
-		renderQuad.h = clip->h;
-	}
-	SDL_RenderCopyEx( gRenderer, mTexture, clip, &renderQuad, angle, center, flip );
-}
-
-void LTexture::render( int x, int y ){
+void LTexture::render( int x, int y, SDL_Renderer* gRenderer){
 	SDL_Rect renderQuad = { x, y, mWidth, mHeight };
 	SDL_RenderCopy( gRenderer, mTexture, NULL, &renderQuad );
 }
@@ -197,7 +187,7 @@ bool loadMedia() {
 	bool success = true;
  
   //open font
-  gFont = TTF_OpenFont( "Roboto-Font/Roboto-Thin.ttf", 36 );
+  gFont = TTF_OpenFont( "Roboto-Font/Roboto-Thin.ttf", 40 );
   if( gFont == NULL ) {
     printf( "Failed to load font! SDL_ttf Error: %s\n", TTF_GetError() );
     success = false;
@@ -205,7 +195,7 @@ bool loadMedia() {
   else {
     //Render text
     SDL_Color textColor = { 0, 0, 0 };
-    if( !gTextTexture.loadFromRenderedText( "Texttttt", textColor ) ) {
+    if( !gTextTexture.loadFromRenderedText( "Score:          0", textColor ) ) {
       printf( "Failed to render text texture!\n" );
       success = false;
     }
@@ -221,16 +211,18 @@ bool loadMedia() {
 	return success;
 }
 
-bool checkCollision ( Ball &ball, BrickConfig &brickConfig, Paddle &paddle ) {
+bool checkCollision ( Ball &ball, BrickConfig &brickConfig, Paddle &paddle, Scoreboard &scoreboard ) {
 	int leftBall,	leftBrick,		leftPaddle;
 	int rightBall,	rightBrick,		rightPaddle;
 	int topBall,	topBrick,		topPaddle;
 	int bottomBall,	bottomBrick,	bottomPaddle;
+	int speed;
 
 	leftBall   = ball.left();					
 	rightBall  = ball.right();
-	topBall	 	 = ball.top();
+	topBall	   = ball.top();
 	bottomBall = ball.bottom();
+	speed	   = -1 - ball.getSpeed();
  
 	//check collision with bricks
 	for ( int i=0; i < brickConfig.size(); i++) { 
@@ -249,10 +241,12 @@ bool checkCollision ( Ball &ball, BrickConfig &brickConfig, Paddle &paddle ) {
 			if     ( topBrick - bottomBall == -2 || topBall - bottomBrick == -2 ) {
 				brickConfig.destroy( i );
 				ball.changeYDir();
+				scoreboard.addScore( 100 );
 			}
 			else if( leftBrick - rightBall == -2 || leftBall - rightBrick == -2 ) {
 				brickConfig.destroy( i );
 				ball.changeXDir();
+				scoreboard.addScore( 100 );
 			}
 		}
 	}
@@ -375,19 +369,28 @@ int main( int argc, char* args[]) {
 			Ball ball;
 			ball.set();
 
+			//Create Scoreboard
 			SDL_Rect scoreFrame = { 0, 0, SCREEN_WIDTH, scoreboardHeight };
+			Scoreboard scoreboard;
+			scoreboard.set();
+			gTextTexture.setBlendMode( SDL_BLENDMODE_BLEND );
+			gTextTexture.setAlpha( 100 );
 
 			unsigned int startTime;
+			unsigned int elapsedTime;
       
 			//While game is running
 			while ( !quit ) {
-
+				
+				//Reset timer
 				startTime = SDL_GetTicks();
-				while ( SDL_GetTicks() < startTime + 5 ){
-					//Do nothing for 10 ms (goal: constant ball speed whether or not paddle moves)
-				}
+
 				//Handle events on queue
 				while( SDL_PollEvent( &e ) != 0 ){
+					
+					//Reset Timer
+					startTime = SDL_GetTicks();
+
 					if ( e.type == SDL_QUIT ) {
 					quit = true;
 					}
@@ -421,7 +424,7 @@ int main( int argc, char* args[]) {
 						//Game Over
 					}
 					
-					checkCollision( ball, brickConfig, paddle);
+					checkCollision( ball, brickConfig, paddle, scoreboard);
 
 					//Clear Screen
 					SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
@@ -436,12 +439,21 @@ int main( int argc, char* args[]) {
 					brickConfig.render( gRenderer, gTexture );
 					ball.render( gRenderer, gTexture );
 
+					//Update Scoreboard
+					scoreboard.render( gRenderer, gFont, gTextTexture );
+
 					//Update screen
 					SDL_RenderPresent( gRenderer );
+					
+					elapsedTime = SDL_GetTicks() - startTime;
+					if( elapsedTime < SCREEN_TICKS_PER_FRAME ){
+						SDL_Delay( SCREEN_TICKS_PER_FRAME - elapsedTime );
+					}
 
 				}
+
 				ball.move();  
-				checkCollision( ball, brickConfig, paddle );
+				checkCollision( ball, brickConfig, paddle, scoreboard );
 
 				//Clear Screen
 				SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
@@ -456,8 +468,17 @@ int main( int argc, char* args[]) {
 				brickConfig.render( gRenderer, gTexture );
 				ball.render( gRenderer, gTexture );
 
+				//Update Scoreboard
+				scoreboard.render( gRenderer, gFont, gTextTexture );
+
 				//Update screen
 				SDL_RenderPresent( gRenderer );
+
+				//Delay to retain constant frame rate
+				elapsedTime = SDL_GetTicks() - startTime;
+				if( elapsedTime < SCREEN_TICKS_PER_FRAME ){
+					SDL_Delay( SCREEN_TICKS_PER_FRAME - elapsedTime );
+				}
 			}
 		}
 	}

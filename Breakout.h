@@ -5,6 +5,7 @@ class Paddle;
 class Brick;
 class BrickConfig;
 class Ball;
+class Scoreboard;
 
 #ifdef _WIN32
 #include <SDL.h>
@@ -24,18 +25,22 @@ class Ball;
 #include <stdio.h>
 #include <string>
 #include <cmath>
+#include <sstream>
 #include "Paddle.h"
 #include "Brick.h"
 #include "BrickConfig.h"
 #include "Ball.h"
+#include "Scoreboard.h"
 
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 640;
-const int scoreboardHeight = 50;
-const int leftBoundry   = 0;
-const int rightBoundry  = SCREEN_WIDTH;
-const int topBoundry	= scoreboardHeight;
-const int bottomBoundry = SCREEN_HEIGHT;
+const int SCREEN_WIDTH			 = 640;
+const int SCREEN_HEIGHT			 = 640;
+const int SCREEN_FPS			 = 120;
+const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
+const int scoreboardHeight		 = 50;
+const int leftBoundry			 = 0;
+const int rightBoundry			 = SCREEN_WIDTH;
+const int topBoundry			 = scoreboardHeight;
+const int bottomBoundry			 = SCREEN_HEIGHT;
 
 enum KeyPressSurfaces 
 {
@@ -57,8 +62,7 @@ class LTexture {
     void setColor( Uint8 red, Uint8 green, Uint8 blue  );
     void setBlendMode( SDL_BlendMode blending );
     void setAlpha( Uint8 alpha );
-    void render( int x, int y, SDL_Renderer* gRenderer, SDL_Rect* clip = NULL, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE );
-    void render( int x, int y );
+    void render( int x, int y, SDL_Renderer* gRenderer );
 	int getWidth();
     int getHeight();
 

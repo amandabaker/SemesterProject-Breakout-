@@ -11,6 +11,7 @@ class Ball;
 #include "Brick.h"
 #include "Paddle.h"
 #include "Ball.h"
+#include "Scoreboard.h"
 
 class BrickConfig {
 

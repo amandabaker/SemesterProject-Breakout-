@@ -15,12 +15,7 @@ void Ball::set() {
 
 	speed = 1; 
 	xVel = speed;
-	yVel = speed;  
-	/*note that the ball will be traveling at a 45 degree angle as it is set above.
-	  the intention here is to have numbers that don't require much calculation, so 
-	  no need for any sass about speed not being the actual speed (the actual speed 
-	  would be sqrt(xVel^2+yVel^2), but thats just lots of extra computation, so 
-	  lets be lazy and not mathematical for now :)			                       */					
+	yVel = speed;  			
 }
 
 bool Ball::move() { //doesn't work yet
@@ -64,6 +59,10 @@ int Ball::bottom() {
 	return yPos + diameter;
 }
 
+int Ball::getSpeed() {
+	return speed;
+}
+
 void Ball::changeXDir() {
 	xVel *= -1;
 }
@@ -76,20 +75,6 @@ void Ball::render( SDL_Renderer *gRenderer ) {
 	SDL_Rect fillRect = { xPos, yPos, diameter, diameter };
 	SDL_SetRenderDrawColor( gRenderer, 0x50, 0xFF, 0x90, 0xFF );
 	SDL_RenderFillRect( gRenderer, &fillRect );
-}
-
-void Ball::render( SDL_Renderer *gRenderer, SDL_Texture *gTexture ) {
-	SDL_Rect srcrect;
-	SDL_Rect dstrect;
-	srcrect.x = 0;
-	srcrect.y = 0;
-	srcrect.w = 30;
-	srcrect.h = 30;
-	dstrect.x = xPos;
-	dstrect.y = yPos;
-	dstrect.w = diameter;
-	dstrect.h = diameter;
-	SDL_RenderCopy( gRenderer, gTexture, &srcrect, &dstrect );
 }
 
 void Ball::render( SDL_Renderer *gRenderer, SDL_Texture *gTexture ) {

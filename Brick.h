@@ -10,6 +10,7 @@ class Ball;
 #include "Paddle.h"
 #include "BrickConfig.h"
 #include "Ball.h"
+#include "Scoreboard.h"
 
 class Brick
 {
