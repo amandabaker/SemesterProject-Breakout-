@@ -1,4 +1,4 @@
-OBJS = Breakout.cpp Ball.cpp Brick.cpp BrickConfig.cpp Paddle.cpp Scoreboard.cpp
+OBJS = Breakout.cpp Ball.cpp Brick.cpp BrickConfig.cpp Paddle.cpp Scoreboard.cpp MainMenu.cpp
 
 CC = g++
 
