@@ -271,14 +271,13 @@ bool checkCollision ( Ball &ball, BrickConfig &brickConfig, Paddle &paddle, Scor
 				ball.changeYDir();
 				if(directionHit < 0){
 					ball.changeXDir();
-			  }
-			}
-		  else if( leftPaddle - rightBall == -2 || leftBall - rightPaddle == -2 ) {
+				}
+			}	
+			else if( leftPaddle - rightBall == -2 || leftBall - rightPaddle == -2 ) {
 				ball.changeXDir();
-	    }
-    }
-  } while( false );
-
+			}
+		}
+	} while( false );
   return true;    
 }
 
