@@ -35,7 +35,7 @@ class MainMenu;
 #include "MainMenu.h"
 
 const int SCREEN_WIDTH			 = 640;
-const int SCREEN_HEIGHT			 = 640;
+const int SCREEN_HEIGHT			 = 480;
 const int SCREEN_FPS			 = 120;
 const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
 const int scoreboardHeight		 = 50;
@@ -58,7 +58,8 @@ enum menuType
 	NO_MENU,
 	MAIN_MENU,
 	GAME_OVER,
-	PAUSE_GAME
+	PAUSE_GAME,
+	WINNER
 };
 
 class LTexture {

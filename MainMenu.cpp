@@ -5,7 +5,7 @@ MainMenu::MainMenu() {
 }
 
 void MainMenu::set() {
-	SDL_Color textColor = { 0x00, 0x00, 0xFF, 0xFF };
+	SDL_Color textColor = { 100, 100, 100, 200 };
 }
 
 void MainMenu::render( SDL_Renderer* gRenderer, TTF_Font* gFont, LTexture gTextTexture, int menuType ) {
@@ -18,6 +18,9 @@ void MainMenu::render( SDL_Renderer* gRenderer, TTF_Font* gFont, LTexture gTextT
 		break;
 	case( PAUSE_GAME ):
 		renderPause( gRenderer, gFont, gTextTexture );
+		break;
+	case( WINNER ):
+		renderWINNER( gRenderer, gFont, gTextTexture );
 		break;
 	default:
 		break;
@@ -35,31 +38,31 @@ void MainMenu::renderMainMenu( SDL_Renderer* gRenderer, TTF_Font* gFont, LTextur
 	gTextTexture.setBlendMode( SDL_BLENDMODE_ADD );
 	gTextTexture.setAlpha( 0x00 );
 	gTextTexture.loadFromRenderedText( menuText, textColor );
-	gTextTexture.render( 120, 250, gRenderer );
+	gTextTexture.render( 120, 150, gRenderer );
 	gTextTexture.loadFromRenderedText( menuText2, textColor );
-	gTextTexture.render( 125, 350, gRenderer );
+	gTextTexture.render( 125, 250, gRenderer );
 }
 
 void MainMenu::renderGameOver( SDL_Renderer* gRenderer, TTF_Font* gFont, LTexture gTextTexture ) {
 	
-	string gameOver(  "        GAME OVER!       " );
+	string gameOver(  "           GAME OVER!       " );
 	string gameOver2( "Press SPACE to play again" );
 	SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xAA);
 	SDL_SetRenderDrawBlendMode( gRenderer, SDL_BLENDMODE_BLEND );
 	SDL_RenderFillRect( gRenderer, NULL );
 	SDL_RenderPresent( gRenderer );
 
-	gTextTexture.setBlendMode( SDL_BLENDMODE_ADD );
-	gTextTexture.setAlpha( 0x00 );
+	gTextTexture.setBlendMode( SDL_BLENDMODE_BLEND );
+	gTextTexture.setAlpha( 0xFF );
 	gTextTexture.loadFromRenderedText( gameOver, textColor );
-	gTextTexture.render( 120, 250, gRenderer );
+	gTextTexture.render( 100, 150, gRenderer );
 	gTextTexture.loadFromRenderedText( gameOver2, textColor );
-	gTextTexture.render( 125, 350, gRenderer );
+	gTextTexture.render( 120, 250, gRenderer );
 }
 
 void MainMenu::renderPause( SDL_Renderer* gRenderer, TTF_Font* gFont, LTexture gTextTexture ) {
 	
-	string pause(  "      Game Paused      " );
+	string pause(  "          Game Paused      " );
 	string pause2( "Press SPACE to continue" );
 	SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xAA);
 	SDL_SetRenderDrawBlendMode( gRenderer, SDL_BLENDMODE_BLEND );
@@ -69,7 +72,24 @@ void MainMenu::renderPause( SDL_Renderer* gRenderer, TTF_Font* gFont, LTexture g
 	gTextTexture.setBlendMode( SDL_BLENDMODE_ADD );
 	gTextTexture.setAlpha( 0x00 );
 	gTextTexture.loadFromRenderedText( pause, textColor );
-	gTextTexture.render( 120, 250, gRenderer );
+	gTextTexture.render( 120, 150, gRenderer );
 	gTextTexture.loadFromRenderedText( pause2, textColor );
-	gTextTexture.render( 125, 350, gRenderer );
+	gTextTexture.render( 125, 250, gRenderer );
+}
+
+void MainMenu::renderWINNER( SDL_Renderer* gRenderer, TTF_Font* gFont, LTexture gTextTexture ) {
+	
+	string pause(  "                YOU WIN!       " );
+	string pause2( "Press SPACE to play again" );
+	SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xAA);
+	SDL_SetRenderDrawBlendMode( gRenderer, SDL_BLENDMODE_BLEND );
+	SDL_RenderFillRect( gRenderer, NULL );
+	SDL_RenderPresent( gRenderer );
+
+	gTextTexture.setBlendMode( SDL_BLENDMODE_ADD );
+	gTextTexture.setAlpha( 0x00 );
+	gTextTexture.loadFromRenderedText( pause, textColor );
+	gTextTexture.render( 120, 150, gRenderer );
+	gTextTexture.loadFromRenderedText( pause2, textColor );
+	gTextTexture.render( 125, 250, gRenderer );
 }
