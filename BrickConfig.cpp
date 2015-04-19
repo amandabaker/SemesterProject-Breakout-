@@ -4,14 +4,14 @@ using namespace std;
 
 BrickConfig::BrickConfig() {
 /*this assumes a rectangle. We can get fancy later*/
-	int numCol = 10;
-	int numRow = 5;
-	int numBricks = numCol * numRow;
-	int numBricksLeft = numBricks;
-	int brickWidth = SCREEN_WIDTH / (numRow + 2);
-	int brickHeight = brickWidth/2;
-	int spaceBtwn = SCREEN_WIDTH / (numRow + 2) / (numRow - 1) * 2;
-	int spaceEdge = SCREEN_WIDTH - brickWidth * numRow - spaceBtwn * (numRow - 1);
+	int numCol;
+	int numRow;
+	int numBricks = 50;
+	int numBricksLefts;
+	int brickWidth;
+	int brickHeight;
+	int spaceBtwn;
+	int spaceEdge;
 	int xPos = 0;
 	int yPos = 0;
 	
@@ -42,8 +42,7 @@ void BrickConfig::set() {
 	numCol = 10;
 	numRow = 5;
 	numBricks = numCol * numRow;
-	//brickWidth = SCREEN_WIDTH / (numCol + 2);
-	//brickHeight = brickWidth/2;
+	numBricksLeft = numBricks;
 	brickWidth = 50;
 	brickHeight = 25;
 	spaceBtwn = SCREEN_WIDTH / (numCol + 2) / (numCol - 1) * 2;
@@ -62,9 +61,9 @@ void BrickConfig::set() {
 	}
 }
 
-void BrickConfig::destroy( int brickNum ) {
+int BrickConfig::destroy( int brickNum ) {
 	brickVect[ brickNum ].destroy();
-	numBricksLeft--;
+	return --numBricksLeft;
 }
 
 void BrickConfig::render( SDL_Renderer* gRenderer, SDL_Texture* gTexture ) {

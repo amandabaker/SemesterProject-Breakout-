@@ -38,7 +38,7 @@ public:
 	int top( int brickNum );
 	int bottom( int brickNum );
 	void set();
-	void destroy( int brickNum );
+	int destroy( int brickNum );
 	void render( SDL_Renderer* );
 	void render( SDL_Renderer*, SDL_Texture* );
 };

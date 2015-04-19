@@ -24,7 +24,8 @@ public:
 	void render( SDL_Renderer*, TTF_Font*, LTexture, int );
 	void renderMainMenu( SDL_Renderer*, TTF_Font*, LTexture );
 	void renderGameOver( SDL_Renderer*, TTF_Font*, LTexture );
-	void renderPause(SDL_Renderer*, TTF_Font*, LTexture );
+	void renderPause( SDL_Renderer*, TTF_Font*, LTexture );
+	void renderWINNER( SDL_Renderer*, TTF_Font*, LTexture );
 };
 
 #endif

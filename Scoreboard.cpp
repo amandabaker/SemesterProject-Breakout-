@@ -2,11 +2,11 @@
 using namespace std;
 
 Scoreboard::Scoreboard() {
-	int score	= 0;
-	int xPos	= 10;
-	int yPos	= 5;
-	int width	= SCREEN_WIDTH - 10;
-	int height  = 40;
+	int score;
+	int xPos;
+	int yPos;
+	int width;
+	int height;
 	SDL_Color textColor;
 }
 

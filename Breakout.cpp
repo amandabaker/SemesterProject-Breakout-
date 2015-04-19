@@ -71,8 +71,9 @@ bool LTexture::loadFromFile( std::string path, SDL_Renderer* gRenderer ) {
 bool LTexture::loadFromRenderedText( std::string textureText, SDL_Color textColor ){
   
 	free();
+	SDL_Color textColor2 = { 100, 100, 100, 200 };
 
-	SDL_Surface* textSurface = TTF_RenderText_Solid( gFont, textureText.c_str(), textColor );
+	SDL_Surface* textSurface = TTF_RenderText_Solid( gFont, textureText.c_str(), textColor2 );
 	if( textSurface == NULL ) {
 		printf( "Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError() );
 	}
@@ -212,7 +213,7 @@ bool loadMedia() {
 	return success;
 }
 
-bool checkCollision ( Ball &ball, BrickConfig &brickConfig, Paddle &paddle, Scoreboard &scoreboard ) {
+bool checkCollision ( Ball &ball, BrickConfig &brickConfig, Paddle &paddle, Scoreboard &scoreboard, int &openMenu) {
 	int leftBall,	leftBrick,		leftPaddle;
 	int rightBall,	rightBrick,		rightPaddle;
 	int topBall,	topBrick,		topPaddle;
@@ -243,12 +244,16 @@ bool checkCollision ( Ball &ball, BrickConfig &brickConfig, Paddle &paddle, Scor
 		else if( leftBall	>= rightBrick )		continue;
 		else { 
 			if     ( topBrick - bottomBall == -2 || topBall - bottomBrick == -2 ) {
-				brickConfig.destroy( i );
+				if ( brickConfig.destroy( i ) == 0 ) {
+					openMenu = WINNER;
+				}
 				ball.changeYDir();
 				scoreboard.addScore( 100 );
 			}
 			else if( leftBrick - rightBall == -2 || leftBall - rightBrick == -2 ) {
-				brickConfig.destroy( i );
+				if ( brickConfig.destroy( i ) == 0 ) {
+					openMenu = WINNER;
+				}
 				ball.changeXDir();
 				scoreboard.addScore( 100 );
 			}
@@ -379,6 +384,7 @@ int main( int argc, char* args[]) {
 			SDL_Rect scoreFrame = { 0, 0, SCREEN_WIDTH, scoreboardHeight };
 			Scoreboard scoreboard;
 			scoreboard.set();
+
 			gTextTexture.setBlendMode( SDL_BLENDMODE_BLEND );
 			gTextTexture.setAlpha( 100 );
 
@@ -438,7 +444,7 @@ int main( int argc, char* args[]) {
 						openMenu = GAME_OVER;
 					}
 					
-					checkCollision( ball, brickConfig, paddle, scoreboard);
+					checkCollision( ball, brickConfig, paddle, scoreboard, openMenu );
 
 					//Clear Screen
 					SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
@@ -453,7 +459,6 @@ int main( int argc, char* args[]) {
 					brickConfig.render( gRenderer, gTexture );
 					ball.render( gRenderer, gTexture );
 
-					//Update Scoreboard
 					scoreboard.render( gRenderer, gFont, gTextTexture );
 
 					//Update screen
@@ -469,7 +474,7 @@ int main( int argc, char* args[]) {
 				if ( !ball.move() ) {
 					openMenu = GAME_OVER;
 				}
-				checkCollision( ball, brickConfig, paddle, scoreboard );
+				checkCollision( ball, brickConfig, paddle, scoreboard, openMenu );
 
 				//Clear Screen
 				SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
@@ -484,7 +489,6 @@ int main( int argc, char* args[]) {
 				brickConfig.render( gRenderer, gTexture );
 				ball.render( gRenderer, gTexture );
 
-				//Update Scoreboard
 				scoreboard.render( gRenderer, gFont, gTextTexture );
 
 				//Update screen
@@ -520,9 +524,10 @@ int main( int argc, char* args[]) {
 						SDL_Delay( 10 );
 					}
 				}
-				if( openMenu == GAME_OVER ) {
+				if( openMenu == GAME_OVER || openMenu == WINNER ) {
 					//Reset game
 					brickConfig.set();
+					ball.set();
 					scoreboard.set();
 				}
 				openMenu = NO_MENU;
