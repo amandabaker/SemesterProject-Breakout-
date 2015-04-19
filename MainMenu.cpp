@@ -2,6 +2,7 @@
 using namespace std;
 
 MainMenu::MainMenu() {
+  SDL_Color textColor;
 }
 
 void MainMenu::set() {
