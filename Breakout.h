@@ -58,7 +58,7 @@ enum menuType
 	NO_MENU,
 	MAIN_MENU,
 	GAME_OVER,
-	GAME_PAUSED
+	PAUSE_GAME
 };
 
 class LTexture {

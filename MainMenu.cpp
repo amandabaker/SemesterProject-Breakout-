@@ -5,7 +5,7 @@ MainMenu::MainMenu() {
 }
 
 void MainMenu::set() {
-	SDL_Color textColor = { 0x00, 0x00, 0x00, 0xFF };
+	SDL_Color textColor = { 0x00, 0x00, 0xFF, 0xFF };
 }
 
 void MainMenu::render( SDL_Renderer* gRenderer, TTF_Font* gFont, LTexture gTextTexture, int menuType ) {
@@ -16,7 +16,7 @@ void MainMenu::render( SDL_Renderer* gRenderer, TTF_Font* gFont, LTexture gTextT
 	case( GAME_OVER ):
 		renderGameOver( gRenderer, gFont, gTextTexture );
 		break;
-	case( GAME_PAUSED ):
+	case( PAUSE_GAME ):
 		renderPause( gRenderer, gFont, gTextTexture );
 		break;
 	default:
@@ -28,7 +28,7 @@ void MainMenu::renderMainMenu( SDL_Renderer* gRenderer, TTF_Font* gFont, LTextur
 	string menuText(  " Welcome to Breakout! " );
 	string menuText2( " Press SPACE to begin " );
 	SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xAA);
-	SDL_SetRenderDrawBlendMode( gRenderer, SDL_BLENDMODE_BLEND );
+	SDL_SetRenderDrawBlendMode( gRenderer, SDL_BLENDMODE_ADD );
 	SDL_RenderFillRect( gRenderer, NULL );
 	SDL_RenderPresent( gRenderer );
 

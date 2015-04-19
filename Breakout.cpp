@@ -414,6 +414,8 @@ int main( int argc, char* args[]) {
 						case SDLK_RIGHT:
 							paddle.setXVel(1);
 							break;
+						case SDLK_SPACE:
+							openMenu = PAUSE_GAME;
 						default:
 							break;
 						}
@@ -433,7 +435,7 @@ int main( int argc, char* args[]) {
 
 					paddle.movePaddle();
 					if (!ball.move()) {
-						//Game Over
+						openMenu = GAME_OVER;
 					}
 					
 					checkCollision( ball, brickConfig, paddle, scoreboard);
@@ -464,7 +466,9 @@ int main( int argc, char* args[]) {
 
 				}
 
-				ball.move();  
+				if ( !ball.move() ) {
+					openMenu = GAME_OVER;
+				}
 				checkCollision( ball, brickConfig, paddle, scoreboard );
 
 				//Clear Screen
@@ -506,7 +510,6 @@ int main( int argc, char* args[]) {
 								switch( e.key.keysym.sym ) {
 									case SDLK_SPACE:
 										quitMainMenu = true;
-										openMenu = NO_MENU;
 										break;
 									default: 
 										break;
@@ -516,6 +519,11 @@ int main( int argc, char* args[]) {
 
 						SDL_Delay( 10 );
 					}
+				}
+				if( openMenu == GAME_OVER ) {
+					//Reset game
+					brickConfig.set();
+					scoreboard.set();
 				}
 				openMenu = NO_MENU;
 			}
