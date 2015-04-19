@@ -5,6 +5,8 @@ class Breakout;
 class Brick;
 class BrickConfig;
 class Ball;
+class Scoreboard;
+class MainMenu;
 
 #include "Breakout.h"
 #include "Brick.h"

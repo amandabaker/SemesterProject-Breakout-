@@ -24,7 +24,6 @@ void Scoreboard::set() {
 
 void Scoreboard::setScore( int newScore ) {
 	score	= newScore;
-
 }
 
 void Scoreboard::addScore( int points ) {

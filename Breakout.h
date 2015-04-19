@@ -6,6 +6,7 @@ class Brick;
 class BrickConfig;
 class Ball;
 class Scoreboard;
+class MainMenu;
 
 #ifdef _WIN32
 #include <SDL.h>
@@ -31,6 +32,7 @@ class Scoreboard;
 #include "BrickConfig.h"
 #include "Ball.h"
 #include "Scoreboard.h"
+#include "MainMenu.h"
 
 const int SCREEN_WIDTH			 = 640;
 const int SCREEN_HEIGHT			 = 640;
@@ -49,6 +51,14 @@ enum KeyPressSurfaces
 	KEY_PRESS_SURFACE_RIGHT,
 	KEY_PRESS_SURFACE_SPACEBAR,
 	KEY_PRESS_SURFACE_TOTAL /*used to count number of all keys used for array size*/
+};
+
+enum menuType
+{
+	NO_MENU,
+	MAIN_MENU,
+	GAME_OVER,
+	GAME_PAUSED
 };
 
 class LTexture {

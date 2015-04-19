@@ -12,6 +12,7 @@ class LTexture;
 #include "BrickConfig.h"
 #include "Brick.h"
 #include "Ball.h"
+#include "MainMenu.h"
 
 class Scoreboard {
 	int score;

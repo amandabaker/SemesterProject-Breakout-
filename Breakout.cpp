@@ -117,6 +117,7 @@ void LTexture::setAlpha( Uint8 alpha ) {
 void LTexture::render( int x, int y, SDL_Renderer* gRenderer){
 	SDL_Rect renderQuad = { x, y, mWidth, mHeight };
 	SDL_RenderCopy( gRenderer, mTexture, NULL, &renderQuad );
+	SDL_RenderPresent( gRenderer );
 }
 
 int LTexture::getWidth() {
@@ -187,7 +188,7 @@ bool loadMedia() {
 	bool success = true;
  
   //open font
-  gFont = TTF_OpenFont( "Roboto-Font/Roboto-Thin.ttf", 40 );
+  gFont = TTF_OpenFont( "Roboto-Font/Roboto-Thin.ttf", 38 );
   if( gFont == NULL ) {
     printf( "Failed to load font! SDL_ttf Error: %s\n", TTF_GetError() );
     success = false;
@@ -382,11 +383,17 @@ int main( int argc, char* args[]) {
 			gTextTexture.setBlendMode( SDL_BLENDMODE_BLEND );
 			gTextTexture.setAlpha( 100 );
 
+			//Set Main Menu
+			MainMenu mainMenu;
+			mainMenu.set();
+			int openMenu = MAIN_MENU;
+			bool quitMainMenu = false;
+
 			unsigned int startTime;
 			unsigned int elapsedTime;
       
 			//While game is running
-			while ( !quit ) {
+			while ( !quit ) { 
 				
 				//Reset timer
 				startTime = SDL_GetTicks();
@@ -485,6 +492,33 @@ int main( int argc, char* args[]) {
 				if( elapsedTime < SCREEN_TICKS_PER_FRAME ){
 					SDL_Delay( SCREEN_TICKS_PER_FRAME - elapsedTime );
 				}
+
+				if ( openMenu != NO_MENU ) {
+					quitMainMenu = false;
+					mainMenu.render( gRenderer, gFont, gTextTexture, openMenu );
+					while ( !quitMainMenu ) {
+						while( SDL_PollEvent( &e ) != 0 ){
+							if ( e.type == SDL_QUIT ) {
+								quit = true;
+								quitMainMenu = true;
+								break;
+							}
+							else if( e.type == SDL_KEYDOWN ) {
+								switch( e.key.keysym.sym ) {
+									case SDLK_SPACE:
+										quitMainMenu = true;
+										openMenu = NO_MENU;
+										break;
+									default: 
+										break;
+								}
+							}
+						}
+
+						SDL_Delay( 10 );
+					}
+				}
+				openMenu = NO_MENU;
 			}
 		}
 	}

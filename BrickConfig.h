@@ -5,6 +5,8 @@ class Breakout;
 class Brick;
 class Paddle;
 class Ball;
+class Scoreboard;
+class MainMenu;
 
 #include <vector>
 #include "Breakout.h"
